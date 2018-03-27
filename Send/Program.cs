@@ -17,7 +17,7 @@ namespace Send
                 using (var channel = connection.CreateModel())
                 {
                     //4. 申明队列(指定durable:true,告知rabbitmq对消息进行持久化)
-                    channel.QueueDeclare(queue: "hello", durable: true, exclusive: false, autoDelete: false, arguments: null);
+                    channel.QueueDeclare(queue: "work_queue", durable: true, exclusive: false, autoDelete: false, arguments: null);
 
                     //将消息标记为持久性 - 将IBasicProperties.SetPersistent设置为true
                     var properties = channel.CreateBasicProperties();
@@ -28,7 +28,7 @@ namespace Send
                     var body = Encoding.UTF8.GetBytes(message);
 
                     //6. 发送数据包(指定basicProperties)
-                    channel.BasicPublish(exchange: "", routingKey: "hello", basicProperties: properties, body: body);
+                    channel.BasicPublish(exchange: "", routingKey: "work_queue", basicProperties: properties, body: body);
                     Console.WriteLine(" [x] Sent {0}", message);
                 }
             }
